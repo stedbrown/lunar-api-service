@@ -4,6 +4,8 @@ Un servizio API affidabile e sempre disponibile per ottenere informazioni sulle 
 
 [![Vercel](https://img.shields.io/badge/Powered%20by-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![API Status](https://img.shields.io/badge/API-Online-success?style=for-the-badge)](https://lunar-api-service.vercel.app/)
+[![SEO Optimized](https://img.shields.io/badge/SEO-Optimized-blue?style=for-the-badge)](https://lunar-api-service.vercel.app/)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-orange?style=for-the-badge)](https://lunar-api-service.vercel.app/)
 
 ## 🚀 Demo
 
@@ -21,6 +23,8 @@ Visita la [documentazione online](https://lunar-api-service.vercel.app/) per pro
 - 📊 Informazioni dettagliate (fase, illuminazione, distanza, ecc.)
 - 🚀 Disponibilità 24/7 grazie al deployment su Vercel
 - 🔒 Misure di sicurezza avanzate
+- 🔍 Ottimizzazione SEO completa per massima visibilità
+- 📱 Supporto PWA (Progressive Web App) per utilizzo offline
 
 ## 🔍 Endpoint API
 
@@ -83,6 +87,27 @@ vercel
 
 Per istruzioni dettagliate, consulta il file [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md).
 
+## 🔍 Ottimizzazioni SEO
+
+Il sito è completamente ottimizzato per i motori di ricerca:
+
+- **Meta tag completi**: Descrizione, parole chiave, autore e robots
+- **Open Graph e Twitter Card**: Per una migliore condivisione sui social media
+- **Dati strutturati JSON-LD**: Per una migliore comprensione da parte dei motori di ricerca
+- **Sitemap XML**: Per facilitare l'indicizzazione di tutte le pagine
+- **Robots.txt**: Per guidare i crawler dei motori di ricerca
+- **Link canonici**: Per evitare problemi di contenuti duplicati
+- **Preconnect e Preload**: Per migliorare le prestazioni di caricamento
+
+## 📱 Progressive Web App (PWA)
+
+L'applicazione supporta le funzionalità PWA:
+
+- **Manifest.json**: Per l'installazione come app
+- **Service Worker**: Per il funzionamento offline
+- **Caching delle risorse**: Per un caricamento rapido anche con connessione lenta
+- **Responsive Design**: Ottimizzato per tutti i dispositivi
+
 ## 📝 Licenza
 
 MIT
@@ -97,4 +122,8 @@ Se trovi utile questo progetto, lascia una stella su GitHub!
 
 ## 🤝 Contribuire
 
-I contributi sono benvenuti! Per favore, apri una issue o una pull request. 
+I contributi sono benvenuti! Per favore, apri una issue o una pull request.
+
+## 📅 Ultimo aggiornamento
+
+© 2025 - Lunar API Service 

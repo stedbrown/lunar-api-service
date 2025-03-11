@@ -3,15 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lunar API Service - Documentazione</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title data-i18n="title">Lunar API Service - Documentazione</title>
+    <!-- Metatag SEO aggiunti -->
+    <meta name="description" content="Lunar API Service: un'API RESTful affidabile per ottenere informazioni accurate sulle fasi lunari, illuminazione e distanza lunare.">
+    <meta name="keywords" content="lunar api, fasi lunari, api luna, astronomia, calcolo fase lunare, illuminazione lunare, distanza lunare">
+    <meta name="author" content="Stefano Vananti">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Lunar API Service - Documentazione">
+    <meta property="og:description" content="API RESTful per informazioni accurate sulle fasi lunari, illuminazione e distanza lunare.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lunar-api-service.vercel.app/">
+    <meta property="og:image" content="https://lunar-api-service.vercel.app/moon-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lunar API Service">
+    <meta name="twitter:description" content="API RESTful per informazioni accurate sulle fasi lunari.">
+    <link rel="canonical" href="https://lunar-api-service.vercel.app/">
+    <!-- Preconnect per migliorare la velocità di caricamento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload per risorse critiche -->
+    <link rel="preload" as="fetch" href="/api/lunar/phase" crossorigin="anonymous">
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#6a4c93">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <!-- Fine metatag SEO -->
+    
+    <!-- JSON-LD per i dati strutturati -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Lunar API Service",
+      "url": "https://lunar-api-service.vercel.app/",
+      "description": "Un'API RESTful che fornisce informazioni accurate sulle fasi lunari, illuminazione e distanza lunare.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Stefano Vananti",
+        "email": "stefanovananti@icloud.com"
+      },
+      "inLanguage": ["it", "en", "de", "fr", "es"],
+      "datePublished": "2023-03-11",
+      "dateModified": "2023-03-11"
+    }
+    </script>
+    
     <style>
         :root {
             --primary-color: #6a4c93;
+            --primary-dark: #4a3a6b;
+            --primary-light: #8a6cb3;
             --secondary-color: #8ac6d1;
+            --secondary-dark: #5a96a1;
             --dark-color: #333;
             --light-color: #f4f4f4;
             --success-color: #28a745;
             --warning-color: #ffc107;
+            --code-bg-color: #1e1e2e;
+            --code-text-color: #f8f8f2;
+            --modal-overlay: rgba(0, 0, 0, 0.8);
+            --section-bg: #f0f0f8;
+            --section-border: #d0d0e8;
+            --calculation-bg: #e8e8f5;
+            --calculation-hover: #d8d8f0;
+            --header-gradient-start: #6a4c93;
+            --header-gradient-end: #3a2a5b;
         }
         
         * {
@@ -33,11 +99,11 @@
         header {
             text-align: center;
             padding: 30px 0;
-            background: linear-gradient(135deg, var(--primary-color), #4a3a6b);
+            background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
             color: white;
             border-radius: 10px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
         h1 {
@@ -67,7 +133,7 @@
             background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         .endpoint {
@@ -152,19 +218,24 @@
         
         .btn {
             display: inline-block;
-            background-color: var(--primary-color);
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
             color: white;
-            padding: 10px 15px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             text-decoration: none;
             font-size: 1rem;
-            margin-top: 10px;
+            margin-top: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         .btn:hover {
-            opacity: 0.9;
+            background: linear-gradient(to right, var(--primary-light), var(--primary-color));
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+            opacity: 1;
         }
         
         #result {
@@ -204,41 +275,286 @@
                 width: 100px;
             }
         }
+
+        /* Stili per il selettore di lingua */
+        .language-selector {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .language-selector select {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .language-selector select option {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .language-selector label {
+            color: white;
+            margin-right: 10px;
+        }
+
+        /* Stili per le sezioni collassabili */
+        .collapsible-section {
+            background-color: var(--section-bg);
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--section-border);
+        }
+
+        .collapsible-header {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .collapsible-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .collapsible-header:hover {
+            background: linear-gradient(to right, var(--primary-light), var(--primary-color));
+        }
+
+        .collapsible-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+            background-color: white;
+        }
+
+        .collapsible-content.active {
+            padding: 20px;
+            max-height: 2000px;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .toggle-icon.active {
+            transform: rotate(180deg);
+        }
+
+        /* Stili per il modale */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .modal-body {
+            padding: 25px;
+            line-height: 1.7;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.9);
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        /* Stili per i blocchi di codice nel modale */
+        .modal-code {
+            background-color: var(--code-bg-color);
+            color: var(--code-text-color);
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Stili per i pulsanti di visualizzazione */
+        .view-details-btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-top: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .view-details-btn:hover {
+            background: linear-gradient(to right, var(--primary-light), var(--primary-color));
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Stili per le sezioni di calcolo */
+        .calculation-section {
+            background-color: var(--calculation-bg);
+            border-left: 4px solid var(--primary-color);
+            padding: 18px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculation-section:hover {
+            background-color: var(--calculation-hover);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transform: translateX(3px);
+        }
+
+        .calculation-title {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .calculation-title span {
+            color: var(--primary-dark);
+            font-size: 1.05rem;
+        }
+
+        .calculation-title .emoji {
+            margin-right: 12px;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+        
+        /* Stili per le liste nei modali */
+        .modal-body ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-body ul li {
+            margin-bottom: 8px;
+        }
+        
+        .modal-body strong {
+            color: var(--primary-color);
+        }
     </style>
-    <!-- Librerie per l'internazionalizzazione -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="/js/i18n.js"></script>
 </head>
 <body>
     <header>
         <h1>🌙 Lunar API Service</h1>
-        <p>Un servizio API affidabile per le fasi lunari</p>
+        <p data-i18n="subtitle">Un servizio API affidabile per le fasi lunari</p>
+        <div class="language-selector">
+            <label for="language-select" data-i18n="language">Lingua:</label>
+            <select id="language-select">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+            </select>
+        </div>
     </header>
     
     <div class="container">
         <section>
-            <h2>Introduzione</h2>
-            <p>
+            <h2 data-i18n="introduction">Introduzione</h2>
+            <p data-i18n="introText">
                 Lunar API Service è un'API RESTful che fornisce informazioni accurate sulle fasi lunari.
                 Puoi utilizzare questa API per ottenere dati sulla fase lunare corrente, su una data specifica,
                 o per ottenere informazioni lunari dettagliate.
             </p>
-            <p>
+            <p data-i18n="availability">
                 L'API è disponibile 24/7 ed è ospitata su Vercel, garantendo alta disponibilità e bassa latenza.
             </p>
         </section>
         
         <section>
-            <h2>Endpoint API</h2>
+            <h2 data-i18n="endpoints">Endpoint API</h2>
             
             <div class="endpoint">
                 <h3><span class="method">GET</span> <span class="url">/api/lunar/phase</span></h3>
-                <p>Restituisce la fase lunare corrente con illuminazione ed emoji corrispondente.</p>
+                <p data-i18n="currentPhase">Restituisce la fase lunare corrente con illuminazione ed emoji corrispondente.</p>
                 
                 <div class="response">
-                    <h4>Esempio di risposta:</h4>
+                    <h4 data-i18n="responseExample">Esempio di risposta:</h4>
                     <pre><code>{
   "status": "success",
   "data": {
@@ -251,18 +567,18 @@
                 </div>
                 
                 <div class="try-it">
-                    <h4>Prova questo endpoint:</h4>
-                    <button class="btn" onclick="fetchAPI('/api/lunar/phase')">Esegui richiesta</button>
+                    <h4 data-i18n="tryEndpoint">Prova questo endpoint:</h4>
+                    <button class="btn api-button" data-endpoint="/api/lunar/phase" data-i18n="executeRequest">Esegui richiesta</button>
                     <pre id="phase-result" style="display: none;"></pre>
                 </div>
             </div>
             
             <div class="endpoint">
                 <h3><span class="method">GET</span> <span class="url">/api/lunar/phase/{date}</span></h3>
-                <p>Restituisce la fase lunare per una data specifica. Il formato della data deve essere YYYY-MM-DD.</p>
+                <p data-i18n="datePhase">Restituisce la fase lunare per una data specifica. Il formato della data deve essere YYYY-MM-DD.</p>
                 
                 <div class="response">
-                    <h4>Esempio di risposta:</h4>
+                    <h4 data-i18n="responseExample">Esempio di risposta:</h4>
                     <pre><code>{
   "status": "success",
   "data": {
@@ -275,19 +591,19 @@
                 </div>
                 
                 <div class="try-it">
-                    <h4>Prova questo endpoint:</h4>
+                    <h4 data-i18n="tryEndpoint">Prova questo endpoint:</h4>
                     <input type="date" id="date-input" class="form-control">
-                    <button class="btn" onclick="fetchDateAPI()">Esegui richiesta</button>
+                    <button class="btn api-button" data-endpoint="date" data-i18n="executeRequest">Esegui richiesta</button>
                     <pre id="date-result" style="display: none;"></pre>
                 </div>
             </div>
             
             <div class="endpoint">
                 <h3><span class="method">GET</span> <span class="url">/api/lunar/info</span></h3>
-                <p>Restituisce informazioni lunari dettagliate, inclusi età, distanza, prossima luna piena e nuova.</p>
+                <p data-i18n="detailedInfo">Restituisce informazioni lunari dettagliate, inclusi età, distanza, prossima luna piena e nuova.</p>
                 
                 <div class="response">
-                    <h4>Esempio di risposta:</h4>
+                    <h4 data-i18n="responseExample">Esempio di risposta:</h4>
                     <pre><code>{
   "status": "success",
   "data": {
@@ -305,56 +621,56 @@
                 </div>
                 
                 <div class="try-it">
-                    <h4>Prova questo endpoint:</h4>
-                    <button class="btn" onclick="fetchAPI('/api/lunar/info')">Esegui richiesta</button>
+                    <h4 data-i18n="tryEndpoint">Prova questo endpoint:</h4>
+                    <button class="btn api-button" data-endpoint="/api/lunar/info" data-i18n="executeRequest">Esegui richiesta</button>
                     <pre id="info-result" style="display: none;"></pre>
                 </div>
             </div>
         </section>
         
         <section>
-            <h2>Fasi Lunari ed Emoji</h2>
-            <p>L'API restituisce un'emoji corrispondente alla fase lunare corrente. Ecco una guida alle fasi lunari e alle relative emoji:</p>
+            <h2 data-i18n="moonPhases">Fasi Lunari ed Emoji</h2>
+            <p data-i18n="moonPhasesDesc">L'API restituisce un'emoji corrispondente alla fase lunare corrente. Ecco una guida alle fasi lunari e alle relative emoji:</p>
             
             <div class="emoji-container">
                 <div class="emoji-item">
                     <span class="emoji">🌑</span>
-                    <span>Luna Nuova</span>
+                    <span data-i18n="newMoon">Luna Nuova</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌒</span>
-                    <span>Luna Crescente</span>
+                    <span data-i18n="waxingCrescent">Luna Crescente</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌓</span>
-                    <span>Primo Quarto</span>
+                    <span data-i18n="firstQuarter">Primo Quarto</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌔</span>
-                    <span>Gibbosa Crescente</span>
+                    <span data-i18n="waxingGibbous">Gibbosa Crescente</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌕</span>
-                    <span>Luna Piena</span>
+                    <span data-i18n="fullMoon">Luna Piena</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌖</span>
-                    <span>Gibbosa Calante</span>
+                    <span data-i18n="waningGibbous">Gibbosa Calante</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌗</span>
-                    <span>Ultimo Quarto</span>
+                    <span data-i18n="lastQuarter">Ultimo Quarto</span>
                 </div>
                 <div class="emoji-item">
                     <span class="emoji">🌘</span>
-                    <span>Luna Calante</span>
+                    <span data-i18n="waningCrescent">Luna Calante</span>
                 </div>
             </div>
         </section>
         
         <section>
-            <h2>Utilizzo in JavaScript</h2>
-            <p>Ecco un esempio di come utilizzare l'API in JavaScript:</p>
+            <h2 data-i18n="jsUsage">Utilizzo in JavaScript</h2>
+            <p data-i18n="jsExample">Ecco un esempio di come utilizzare l'API in JavaScript:</p>
             
             <pre><code>// Ottieni la fase lunare corrente
 fetch('https://lunar-api-service.vercel.app/api/lunar/phase')
@@ -374,39 +690,643 @@ fetch('https://lunar-api-service.vercel.app/api/lunar/phase/2023-12-25')
         </section>
         
         <section>
-            <h2>Limiti e Considerazioni</h2>
-            <p>
+            <h2 data-i18n="limits">Limiti e Considerazioni</h2>
+            <p data-i18n="limitsText">
                 L'API è gratuita e non richiede autenticazione. Tuttavia, ti preghiamo di utilizzarla in modo responsabile.
                 I calcoli lunari sono basati su algoritmi astronomici e forniscono risultati accurati per date comprese tra il 1900 e il 2100.
             </p>
         </section>
         
         <section>
-            <h2>Sicurezza</h2>
-            <p>
+            <h2 data-i18n="algorithm">Algoritmo Astronomico</h2>
+            <p data-i18n="algorithmIntro">
+                I calcoli delle fasi lunari utilizzano un algoritmo astronomico basato sulle equazioni di Jean Meeus, descritte nel suo libro "Astronomical Algorithms". Ecco una spiegazione matematica semplificata:
+            </p>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h3 data-i18n="lunarPhaseCalc">🔢 Calcolo della Fase Lunare</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <div class="calculation-section" onclick="openModal('step1Modal')">
+                        <div class="calculation-title">
+                            <span class="emoji">1️⃣</span>
+                            <span data-i18n="lunarPhaseStep1">Calcolo del numero di giorni trascorsi dal 1 gennaio 2000 (J2000):</span>
+                        </div>
+                    </div>
+                    
+                    <div class="calculation-section" onclick="openModal('step2Modal')">
+                        <div class="calculation-title">
+                            <span class="emoji">2️⃣</span>
+                            <span data-i18n="lunarPhaseStep2">Calcolo dell'età lunare normalizzata (0-1):</span>
+                        </div>
+                    </div>
+                    
+                    <div class="calculation-section" onclick="openModal('step3Modal')">
+                        <div class="calculation-title">
+                            <span class="emoji">3️⃣</span>
+                            <span data-i18n="lunarPhaseStep3">Calcolo della fase lunare (0-1, dove 0 e 1 = Luna Nuova, 0.5 = Luna Piena):</span>
+                        </div>
+                    </div>
+                    
+                    <div class="calculation-section" onclick="openModal('step4Modal')">
+                        <div class="calculation-title">
+                            <span class="emoji">4️⃣</span>
+                            <span data-i18n="lunarPhaseStep4">Calcolo dell'illuminazione (0-1):</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h3 data-i18n="lunarDistanceCalc">📏 Calcolo della Distanza Lunare</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <p data-i18n="lunarDistanceExplain">
+                        La distanza Terra-Luna varia a causa dell'orbita ellittica della Luna 🌎↔️🌙. La distanza media è di circa 384,400 km, ma varia tra 356,500 km (perigeo) e 406,700 km (apogeo).
+                    </p>
+                    <div class="calculation-section" onclick="openModal('distanceModal')">
+                        <div class="calculation-title">
+                            <span class="emoji">📐</span>
+                            <span>Formula per il calcolo della distanza</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <h3 data-i18n="lunarAccuracy">🎯 Precisione dell'Algoritmo</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <p data-i18n="lunarAccuracyExplain">
+                        Questo algoritmo semplificato ha una precisione di circa ±0.25 giorni per l'età lunare e ±1% per l'illuminazione. Per calcoli più precisi, l'API utilizza correzioni aggiuntive che tengono conto di:
+                    </p>
+                    <ul style="margin-left: 20px;">
+                        <li data-i18n="lunarAccuracyPoint1">🪐 Perturbazioni gravitazionali di altri pianeti</li>
+                        <li data-i18n="lunarAccuracyPoint2">⭕ Variazioni nell'eccentricità dell'orbita lunare</li>
+                        <li data-i18n="lunarAccuracyPoint3">🔄 Precessione degli equinozi</li>
+                        <li data-i18n="lunarAccuracyPoint4">📐 Nutazione e aberrazione</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p data-i18n="algorithmReference">
+                Per approfondimenti, consulta "Astronomical Algorithms" di Jean Meeus 📚 o "Practical Astronomy with your Calculator" di Peter Duffett-Smith 🔭.
+            </p>
+        </section>
+        
+        <section>
+            <h2 data-i18n="security">Sicurezza</h2>
+            <p data-i18n="securityText">
                 L'API Lunar è stata progettata con la sicurezza come priorità. Ecco le misure di sicurezza implementate:
             </p>
             
             <ul style="margin-left: 20px; margin-bottom: 20px;">
-                <li><strong>Rate Limiting:</strong> Per prevenire abusi, l'API limita le richieste a 100 per IP ogni 15 minuti.</li>
-                <li><strong>Validazione degli Input:</strong> Tutti gli input vengono rigorosamente validati per prevenire attacchi di injection.</li>
-                <li><strong>Headers di Sicurezza:</strong> L'API utilizza headers di sicurezza moderni per proteggere contro attacchi comuni come XSS e CSRF.</li>
-                <li><strong>HTTPS:</strong> Tutte le comunicazioni sono crittografate tramite HTTPS.</li>
-                <li><strong>Monitoraggio:</strong> L'attività dell'API viene monitorata per identificare e bloccare comportamenti sospetti.</li>
+                <li data-i18n="rateLimiting">Rate Limiting: Per prevenire abusi, l'API limita le richieste a 100 per IP ogni 15 minuti.</li>
+                <li data-i18n="inputValidation">Validazione degli Input: Tutti gli input vengono rigorosamente validati per prevenire attacchi di injection.</li>
+                <li data-i18n="securityHeaders">Headers di Sicurezza: L'API utilizza headers di sicurezza moderni per proteggere contro attacchi comuni come XSS e CSRF.</li>
+                <li data-i18n="https">HTTPS: Tutte le comunicazioni sono crittografate tramite HTTPS.</li>
+                <li data-i18n="monitoring">Monitoraggio: L'attività dell'API viene monitorata per identificare e bloccare comportamenti sospetti.</li>
             </ul>
             
-            <p>
+            <p data-i18n="contact">
                 Se riscontri problemi di sicurezza o hai suggerimenti per migliorare la sicurezza dell'API, ti preghiamo di contattarci all'indirizzo <a href="mailto:stefanovananti@icloud.com">stefanovananti@icloud.com</a>.
             </p>
         </section>
     </div>
     
     <footer>
-        <p>Lunar API Service &copy; 2023 - Sviluppato da <a href="mailto:stefanovananti@icloud.com">Stefano Vananti</a> - Disponibile su <a href="https://github.com/stedbrown/lunar-api-service" target="_blank">GitHub</a></p>
-        <p style="margin-top: 10px; font-size: 0.9em;">Se trovi utile questo progetto, <a href="https://github.com/stedbrown/lunar-api-service" target="_blank">lascia una stella su GitHub</a>!</p>
+        <p data-i18n="footer">Lunar API Service &copy; 2025 - Sviluppato da <a href="mailto:stefanovananti@icloud.com">Stefano Vananti</a> - Disponibile su <a href="https://github.com/stedbrown/lunar-api-service" target="_blank">GitHub</a></p>
+        <p style="margin-top: 10px; font-size: 0.9em;" data-i18n="githubStar">Se trovi utile questo progetto, <a href="https://github.com/stedbrown/lunar-api-service" target="_blank">lascia una stella su GitHub</a>!</p>
     </footer>
     
+    <!-- Modali per i dettagli dei calcoli -->
+    <div id="step1Modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="lunarPhaseStep1">Calcolo del numero di giorni trascorsi dal 1 gennaio 2000 (J2000)</h3>
+                <button class="modal-close" onclick="closeModal('step1Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Questo calcolo determina quanti giorni sono passati dalla data di riferimento J2000 (1 gennaio 2000) fino alla data per cui si vuole calcolare la fase lunare.</p>
+                <div class="modal-code">d = (anno - 2000) * 365.25 + (mese - 1) * 30.6 + giorno - 1 + ore/24</div>
+                <p>Dove:</p>
+                <ul>
+                    <li><strong>anno</strong>: l'anno della data</li>
+                    <li><strong>mese</strong>: il mese della data (1-12)</li>
+                    <li><strong>giorno</strong>: il giorno del mese</li>
+                    <li><strong>ore</strong>: l'ora del giorno (0-24)</li>
+                </ul>
+                <p>Il valore 365.25 tiene conto degli anni bisestili, mentre 30.6 è una media approssimata dei giorni in un mese.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="step2Modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="lunarPhaseStep2">Calcolo dell'età lunare normalizzata (0-1)</h3>
+                <button class="modal-close" onclick="closeModal('step2Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Questo passaggio calcola l'età lunare normalizzata, che rappresenta la posizione nel ciclo lunare.</p>
+                <div class="modal-code">// Periodo sinodico medio della Luna (29.53059 giorni)
+lunationNumber = d / 29.53059
+lunarAge = (lunationNumber - Math.floor(lunationNumber)) * 29.53059</div>
+                <p>Dove:</p>
+                <ul>
+                    <li><strong>d</strong>: giorni trascorsi dal J2000</li>
+                    <li><strong>29.53059</strong>: durata media di un ciclo lunare completo in giorni</li>
+                    <li><strong>lunationNumber</strong>: numero di cicli lunari completati dal J2000</li>
+                    <li><strong>lunarAge</strong>: età attuale della Luna nel ciclo corrente (in giorni)</li>
+                </ul>
+                <p>La funzione Math.floor() viene utilizzata per ottenere solo la parte frazionaria del ciclo lunare.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="step3Modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="lunarPhaseStep3">Calcolo della fase lunare (0-1)</h3>
+                <button class="modal-close" onclick="closeModal('step3Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>La fase lunare è rappresentata come un valore tra 0 e 1, dove:</p>
+                <ul>
+                    <li><strong>0.0</strong> o <strong>1.0</strong> = Luna Nuova</li>
+                    <li><strong>0.25</strong> = Primo Quarto</li>
+                    <li><strong>0.5</strong> = Luna Piena</li>
+                    <li><strong>0.75</strong> = Ultimo Quarto</li>
+                </ul>
+                <div class="modal-code">phase = lunationNumber - Math.floor(lunationNumber)</div>
+                <p>Questo valore rappresenta la frazione del ciclo lunare completata e viene utilizzato per determinare la fase lunare corrente.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="step4Modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="lunarPhaseStep4">Calcolo dell'illuminazione (0-1)</h3>
+                <button class="modal-close" onclick="closeModal('step4Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>L'illuminazione della Luna segue una curva sinusoidale durante il ciclo lunare:</p>
+                <div class="modal-code">// L'illuminazione segue una curva sinusoidale
+illumination = 0.5 * (1 - Math.cos(2 * Math.PI * phase))</div>
+                <p>Dove:</p>
+                <ul>
+                    <li><strong>phase</strong>: la fase lunare (0-1)</li>
+                    <li><strong>illumination</strong>: la frazione della superficie lunare illuminata (0-1)</li>
+                </ul>
+                <p>Questo calcolo restituisce:</p>
+                <ul>
+                    <li><strong>0.0</strong> = completamente buia (Luna Nuova)</li>
+                    <li><strong>0.5</strong> = metà illuminata (Primo o Ultimo Quarto)</li>
+                    <li><strong>1.0</strong> = completamente illuminata (Luna Piena)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="distanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="lunarDistanceCalc">📏 Calcolo della Distanza Lunare</h3>
+                <button class="modal-close" onclick="closeModal('distanceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>La distanza Terra-Luna varia a causa dell'orbita ellittica della Luna. Questa formula semplificata calcola la distanza approssimativa:</p>
+                <div class="modal-code">// Calcolo semplificato della distanza
+M = 2 * Math.PI * phase
+distance = 384400 * (1 - 0.0549 * Math.cos(M))</div>
+                <p>Dove:</p>
+                <ul>
+                    <li><strong>M</strong>: anomalia media (posizione angolare della Luna nella sua orbita)</li>
+                    <li><strong>phase</strong>: la fase lunare (0-1)</li>
+                    <li><strong>384400</strong>: distanza media Terra-Luna in km</li>
+                    <li><strong>0.0549</strong>: eccentricità dell'orbita lunare</li>
+                </ul>
+                <p>Questo calcolo approssima la distanza tra:</p>
+                <ul>
+                    <li><strong>356,500 km</strong> al perigeo (punto più vicino)</li>
+                    <li><strong>406,700 km</strong> all'apogeo (punto più lontano)</li>
+                </ul>
+                <p>Per calcoli più precisi, l'API utilizza formule più complesse che tengono conto di perturbazioni gravitazionali e variazioni orbitali.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const translations = {
+            it: {
+                title: "Lunar API Service - Documentazione",
+                subtitle: "Un servizio API affidabile per le fasi lunari",
+                introduction: "Introduzione",
+                introText: "Lunar API Service è un'API RESTful che fornisce informazioni accurate sulle fasi lunari. Puoi utilizzare questa API per ottenere dati sulla fase lunare corrente, su una data specifica, o per ottenere informazioni lunari dettagliate.",
+                availability: "L'API è disponibile 24/7 ed è ospitata su Vercel, garantendo alta disponibilità e bassa latenza.",
+                endpoints: "Endpoint API",
+                currentPhase: "Restituisce la fase lunare corrente con illuminazione ed emoji corrispondente.",
+                responseExample: "Esempio di risposta:",
+                tryEndpoint: "Prova questo endpoint:",
+                executeRequest: "Esegui richiesta",
+                loading: "Caricamento...",
+                error: "Errore:",
+                selectDate: "Seleziona una data",
+                language: "Lingua:",
+                moonPhases: "Fasi Lunari ed Emoji",
+                moonPhasesDesc: "L'API restituisce un'emoji corrispondente alla fase lunare corrente. Ecco una guida alle fasi lunari e alle relative emoji:",
+                newMoon: "Luna Nuova",
+                waxingCrescent: "Luna Crescente",
+                firstQuarter: "Primo Quarto",
+                waxingGibbous: "Gibbosa Crescente",
+                fullMoon: "Luna Piena",
+                waningGibbous: "Gibbosa Calante",
+                lastQuarter: "Ultimo Quarto",
+                waningCrescent: "Luna Calante",
+                jsUsage: "Utilizzo in JavaScript",
+                jsExample: "Ecco un esempio di come utilizzare l'API in JavaScript:",
+                limits: "Limiti e Considerazioni",
+                limitsText: "L'API è gratuita e non richiede autenticazione. Tuttavia, ti preghiamo di utilizzarla in modo responsabile. I calcoli lunari sono basati su algoritmi astronomici e forniscono risultati accurati per date comprese tra il 1900 e il 2100.",
+                security: "Sicurezza",
+                securityText: "L'API Lunar è stata progettata con la sicurezza come priorità. Ecco le misure di sicurezza implementate:",
+                rateLimiting: "Rate Limiting: Per prevenire abusi, l'API limita le richieste a 100 per IP ogni 15 minuti.",
+                inputValidation: "Validazione degli Input: Tutti gli input vengono rigorosamente validati per prevenire attacchi di injection.",
+                securityHeaders: "Headers di Sicurezza: L'API utilizza headers di sicurezza moderni per proteggere contro attacchi comuni come XSS e CSRF.",
+                https: "HTTPS: Tutte le comunicazioni sono crittografate tramite HTTPS.",
+                monitoring: "Monitoraggio: L'attività dell'API viene monitorata per identificare e bloccare comportamenti sospetti.",
+                contact: "Se riscontri problemi di sicurezza o hai suggerimenti per migliorare la sicurezza dell'API, ti preghiamo di contattarci all'indirizzo",
+                datePhase: "Restituisce la fase lunare per una data specifica. Il formato della data deve essere YYYY-MM-DD.",
+                detailedInfo: "Restituisce informazioni lunari dettagliate, inclusi età, distanza, prossima luna piena e nuova.",
+                footer: 'Lunar API Service © 2025 - Sviluppato da Stefano Vananti - Disponibile su GitHub',
+                githubStar: 'Se trovi utile questo progetto, lascia una stella su GitHub!',
+                algorithm: "Algoritmo Astronomico",
+                algorithmIntro: "I calcoli delle fasi lunari utilizzano un algoritmo astronomico basato sulle equazioni di Jean Meeus, descritte nel suo libro \"Astronomical Algorithms\". Ecco una spiegazione matematica semplificata:",
+                lunarPhaseCalc: "🔢 Calcolo della Fase Lunare",
+                lunarPhaseStep1: "Calcolo del numero di giorni trascorsi dal 1 gennaio 2000 (J2000):",
+                lunarPhaseStep2: "Calcolo dell'età lunare normalizzata (0-1):",
+                lunarPhaseStep3: "Calcolo della fase lunare (0-1, dove 0 e 1 = Luna Nuova, 0.5 = Luna Piena):",
+                lunarPhaseStep4: "Calcolo dell'illuminazione (0-1):",
+                lunarDistanceCalc: "📏 Calcolo della Distanza Lunare",
+                lunarDistanceExplain: "La distanza Terra-Luna varia a causa dell'orbita ellittica della Luna 🌎↔️🌙. La distanza media è di circa 384,400 km, ma varia tra 356,500 km (perigeo) e 406,700 km (apogeo).",
+                lunarAccuracy: "🎯 Precisione dell'Algoritmo",
+                lunarAccuracyExplain: "Questo algoritmo semplificato ha una precisione di circa ±0.25 giorni per l'età lunare e ±1% per l'illuminazione. Per calcoli più precisi, l'API utilizza correzioni aggiuntive che tengono conto di:",
+                lunarAccuracyPoint1: "🪐 Perturbazioni gravitazionali di altri pianeti",
+                lunarAccuracyPoint2: "⭕ Variazioni nell'eccentricità dell'orbita lunare",
+                lunarAccuracyPoint3: "🔄 Precessione degli equinozi",
+                lunarAccuracyPoint4: "📐 Nutazione e aberrazione",
+                algorithmReference: "Per approfondimenti, consulta \"Astronomical Algorithms\" di Jean Meeus 📚 o \"Practical Astronomy with your Calculator\" di Peter Duffett-Smith 🔭."
+            },
+            en: {
+                title: "Lunar API Service - Documentation",
+                subtitle: "A reliable API service for lunar phases",
+                introduction: "Introduction",
+                introText: "Lunar API Service is a RESTful API that provides accurate information about lunar phases. You can use this API to get data about the current lunar phase, a specific date, or to get detailed lunar information.",
+                availability: "The API is available 24/7 and is hosted on Vercel, ensuring high availability and low latency.",
+                endpoints: "API Endpoints",
+                currentPhase: "Returns the current lunar phase with illumination and corresponding emoji.",
+                responseExample: "Response example:",
+                tryEndpoint: "Try this endpoint:",
+                executeRequest: "Execute request",
+                loading: "Loading...",
+                error: "Error:",
+                selectDate: "Select a date",
+                language: "Language:",
+                moonPhases: "Lunar Phases and Emojis",
+                moonPhasesDesc: "The API returns an emoji corresponding to the current lunar phase. Here's a guide to lunar phases and their emojis:",
+                newMoon: "New Moon",
+                waxingCrescent: "Waxing Crescent",
+                firstQuarter: "First Quarter",
+                waxingGibbous: "Waxing Gibbous",
+                fullMoon: "Full Moon",
+                waningGibbous: "Waning Gibbous",
+                lastQuarter: "Last Quarter",
+                waningCrescent: "Waning Crescent",
+                jsUsage: "JavaScript Usage",
+                jsExample: "Here's an example of how to use the API in JavaScript:",
+                limits: "Limits and Considerations",
+                limitsText: "The API is free and requires no authentication. However, please use it responsibly. Lunar calculations are based on astronomical algorithms and provide accurate results for dates between 1900 and 2100.",
+                security: "Security",
+                securityText: "The Lunar API has been designed with security as a priority. Here are the security measures implemented:",
+                rateLimiting: "Rate Limiting: To prevent abuse, the API limits requests to 100 per IP every 15 minutes.",
+                inputValidation: "Input Validation: All inputs are strictly validated to prevent injection attacks.",
+                securityHeaders: "Security Headers: The API uses modern security headers to protect against common attacks like XSS and CSRF.",
+                https: "HTTPS : All communications are encrypted via HTTPS.",
+                monitoring: "Monitoring: API activity is monitored to identify and block suspicious behavior.",
+                contact: "If you encounter security issues or have suggestions to improve API security, please contact us at",
+                datePhase: "Returns the lunar phase for a specific date. The date format must be YYYY-MM-DD.",
+                detailedInfo: "Returns detailed lunar information, including age, distance, next full moon and new moon.",
+                footer: 'Lunar API Service © 2025 - Developed by Stefano Vananti - Available on GitHub',
+                githubStar: 'If you find this project useful, give it a star on GitHub!',
+                algorithm: "Astronomical Algorithm",
+                algorithmIntro: "The lunar phase calculations use an astronomical algorithm based on Jean Meeus' equations, described in his book \"Astronomical Algorithms\". Here's a simplified mathematical explanation:",
+                lunarPhaseCalc: "🔢 Lunar Phase Calculation",
+                lunarPhaseStep1: "Calculation of days since January 1, 2000 (J2000):",
+                lunarPhaseStep2: "Calculation of normalized lunar age (0-1):",
+                lunarPhaseStep3: "Calculation of lunar phase (0-1, where 0 and 1 = New Moon, 0.5 = Full Moon):",
+                lunarPhaseStep4: "Calculation of illumination (0-1):",
+                lunarDistanceCalc: "📏 Lunar Distance Calculation",
+                lunarDistanceExplain: "The Earth-Moon distance varies due to the Moon's elliptical orbit 🌎↔️🌙. The average distance is about 384,400 km, but varies between 356,500 km (perigee) and 406,700 km (apogee).",
+                lunarAccuracy: "🎯 Algorithm Accuracy",
+                lunarAccuracyExplain: "This simplified algorithm has an accuracy of about ±0.25 days for lunar age and ±1% for illumination. For more precise calculations, the API uses additional corrections that account for:",
+                lunarAccuracyPoint1: "🪐 Gravitational perturbations from other planets",
+                lunarAccuracyPoint2: "⭕ Variations in the eccentricity of the lunar orbit",
+                lunarAccuracyPoint3: "🔄 Precession of the equinoxes",
+                lunarAccuracyPoint4: "📐 Nutation and aberration",
+                algorithmReference: "For more details, consult \"Astronomical Algorithms\" by Jean Meeus 📚 or \"Practical Astronomy with your Calculator\" by Peter Duffett-Smith 🔭."
+            },
+            de: {
+                title: "Lunar API Service - Dokumentation",
+                subtitle: "Ein zuverlässiger API-Dienst für Mondphasen",
+                introduction: "Einführung",
+                introText: "Lunar API Service ist eine RESTful API, die genaue Informationen über Mondphasen liefert. Sie können diese API verwenden, um Daten über die aktuelle Mondphase, ein bestimmtes Datum oder detaillierte Mondinformationen zu erhalten.",
+                availability: "Die API ist rund um die Uhr verfügbar und wird auf Vercel gehostet, was hohe Verfügbarkeit und geringe Latenz gewährleistet.",
+                endpoints: "API-Endpunkte",
+                currentPhase: "Gibt die aktuelle Mondphase mit Beleuchtung und entsprechendem Emoji zurück.",
+                responseExample: "Antwortbeispiel:",
+                tryEndpoint: "Testen Sie diesen Endpunkt:",
+                executeRequest: "Anfrage ausführen",
+                loading: "Wird geladen...",
+                error: "Fehler:",
+                selectDate: "Datum auswählen",
+                language: "Sprache:",
+                moonPhases: "Mondphasen und Emojis",
+                moonPhasesDesc: "Die API gibt ein Emoji entsprechend der aktuellen Mondphase zurück. Hier ist eine Übersicht der Mondphasen und ihrer Emojis:",
+                newMoon: "Neumond",
+                waxingCrescent: "Zunehmender Sichelmond",
+                firstQuarter: "Erstes Viertel",
+                waxingGibbous: "Zunehmender Mond",
+                fullMoon: "Vollmond",
+                waningGibbous: "Abnehmender Mond",
+                lastQuarter: "Letztes Viertel",
+                waningCrescent: "Abnehmender Sichelmond",
+                jsUsage: "JavaScript-Verwendung",
+                jsExample: "Hier ist ein Beispiel, wie Sie die API in JavaScript verwenden können:",
+                limits: "Einschränkungen und Überlegungen",
+                limitsText: "Die API ist kostenlos und erfordert keine Authentifizierung. Bitte nutzen Sie sie dennoch verantwortungsvoll. Die Mondberechnungen basieren auf astronomischen Algorithmen und liefern genaue Ergebnisse für Daten zwischen 1900 und 2100.",
+                security: "Sicherheit",
+                securityText: "Die Lunar API wurde mit Sicherheit als Priorität entwickelt. Hier sind die implementierten Sicherheitsmaßnahmen:",
+                rateLimiting: "Rate-Limiting: Um Missbrauch zu verhindern, begrenzt die API Anfragen auf 100 pro IP alle 15 Minuten.",
+                inputValidation: "Eingabevalidierung: Alle Eingaben werden streng validiert, um Injection-Angriffe zu verhindern.",
+                securityHeaders: "Sicherheits-Header: Die API verwendet moderne Sicherheits-Header zum Schutz vor häufigen Angriffen wie XSS und CSRF.",
+                https: "HTTPS: Alle Kommunikation wird über HTTPS verschlüsselt.",
+                monitoring: "Überwachung: Die API-Aktivität wird überwacht, um verdächtiges Verhalten zu erkennen und zu blockieren.",
+                contact: "Wenn Sie auf Sicherheitsprobleme stoßen oder Vorschläge zur Verbesserung der API-Sicherheit haben, kontaktieren Sie uns bitte unter",
+                datePhase: "Gibt die Mondphase für ein bestimmtes Datum zurück. Das Datumsformat muss YYYY-MM-DD sein.",
+                detailedInfo: "Gibt detaillierte Mondinformationen zurück, einschließlich Alter, Entfernung, nächster Vollmond und Neumond.",
+                footer: 'Lunar API Service © 2025 - Entwickelt von Stefano Vananti - Verfügbar auf GitHub',
+                githubStar: 'Wenn Sie dieses Projekt nützlich finden, geben Sie ihm einen Stern auf GitHub!',
+                algorithm: "Astronomischer Algorithmus",
+                algorithmIntro: "Die Berechnungen der Mondphasen verwenden einen astronomischen Algorithmus, der auf den Gleichungen von Jean Meeus basiert, die in seinem Buch \"Astronomical Algorithms\" beschrieben sind. Hier ist eine vereinfachte mathematische Erklärung:",
+                lunarPhaseCalc: "🔢 Berechnung der Mondphase",
+                lunarPhaseStep1: "1️⃣ Berechnung der Tage seit dem 1. Januar 2000 (J2000):",
+                lunarPhaseStep2: "2️⃣ Berechnung des normalisierten Mondalters (0-1):",
+                lunarPhaseStep3: "3️⃣ Berechnung der Mondphase (0-1, wobei 0 und 1 = Neumond, 0,5 = Vollmond):",
+                lunarPhaseStep4: "4️⃣ Berechnung der Beleuchtung (0-1):",
+                lunarDistanceCalc: "📏 Berechnung der Monddistanz",
+                lunarDistanceExplain: "Die Entfernung Erde-Mond variiert aufgrund der elliptischen Umlaufbahn des Mondes 🌎↔️🌙. Die durchschnittliche Entfernung beträgt etwa 384.400 km, schwankt aber zwischen 356.500 km (Perigäum) und 406.700 km (Apogäum).",
+                lunarAccuracy: "🎯 Genauigkeit des Algorithmus",
+                lunarAccuracyExplain: "Dieser vereinfachte Algorithmus hat eine Genauigkeit von etwa ±0,25 Tagen für das Mondalter und ±1% for illumination. Für genauere Berechnungen verwendet die API zusätzliche Korrekturen, die Folgendes berücksichtigen:",
+                lunarAccuracyPoint1: "🪐 Gravitationsstörungen durch andere Planeten",
+                lunarAccuracyPoint2: "⭕ Variationen in der Exzentrizität der Mondumlaufbahn",
+                lunarAccuracyPoint3: "🔄 Präzession der Tagundnachtgleichen",
+                lunarAccuracyPoint4: "📐 Nutation und Aberration",
+                algorithmReference: "Für weitere Details konsultieren Sie \"Astronomical Algorithms\" von Jean Meeus 📚 oder \"Practical Astronomy with your Calculator\" von Peter Duffett-Smith 🔭."
+            },
+            fr: {
+                title: "Lunar API Service - Documentation",
+                subtitle: "Un service API fiable pour les phases lunaires",
+                introduction: "Introduction",
+                introText: "Lunar API Service est une API RESTful qui fournit des informations précises sur les phases lunaires. Vous pouvez utiliser cette API pour obtenir des données sur la phase lunaire actuelle, une date spécifique ou des informations lunaires détaillées.",
+                availability: "L'API est disponible 24h/24 et 7j/7 et est hébergée sur Vercel, garantissant une haute disponibilité et une faible latence.",
+                endpoints: "Points de terminaison API",
+                currentPhase: "Renvoie la phase lunaire actuelle avec l'illumination et l'emoji correspondant.",
+                responseExample: "Exemple de réponse :",
+                tryEndpoint: "Essayez ce point de terminaison :",
+                executeRequest: "Exécuter la requête",
+                loading: "Chargement...",
+                error: "Erreur :",
+                selectDate: "Sélectionnez une date",
+                language: "Langue :",
+                moonPhases: "Phases Lunaires et Emojis",
+                moonPhasesDesc: "L'API renvoie un emoji correspondant à la phase lunaire actuelle. Voici un guide des phases lunaires et de leurs emojis :",
+                newMoon: "Nouvelle Lune",
+                waxingCrescent: "Premier Croissant",
+                firstQuarter: "Premier Quartier",
+                waxingGibbous: "Lune Gibbeuse Croissante",
+                fullMoon: "Pleine Lune",
+                waningGibbous: "Lune Gibbeuse Décroissante",
+                lastQuarter: "Dernier Quartier",
+                waningCrescent: "Dernier Croissant",
+                jsUsage: "Utilisation en JavaScript",
+                jsExample: "Voici un exemple d'utilisation de l'API en JavaScript :",
+                limits: "Limites et Considérations",
+                limitsText: "L'API est gratuite et ne nécessite pas d'authentification. Cependant, veuillez l'utiliser de manière responsable. Les calculs lunaires sont basés sur des algorithmes astronomiques et fournissent des résultats précis pour les dates comprises entre 1900 et 2100.",
+                security: "Sécurité",
+                securityText: "L'API Lunar a été conçue avec la sécurité comme priorité. Voici les mesures de sécurité mises en place :",
+                rateLimiting: "Limitation de débit : Pour prévenir les abus, l'API limite les requêtes à 100 par IP toutes les 15 minutes.",
+                inputValidation: "Validation des entrées : Toutes les entrées sont strictement validées pour prévenir les attaques par injection.",
+                securityHeaders: "En-têtes de sécurité : L'API utilise des en-têtes de sécurité modernes pour protéger contre les attaques courantes comme XSS et CSRF.",
+                https: "HTTPS : Toutes les communications sont chiffrées via HTTPS.",
+                monitoring: "Surveillance : L'activité de l'API est surveillée pour identifier et bloquer les comportaments sospechosos.",
+                contact: "Si vous rencontrez des problèmes de sécurité ou avez des suggestions pour améliorer la sécurité de l'API, veuillez nous contacter à",
+                datePhase: "Renvoie la phase lunaire pour une date spécifique. Le format de date doit être YYYY-MM-DD.",
+                detailedInfo: "Renvoie des informations lunaires détaillées, y compris l'âge, la distance, la prochaine pleine lune et nouvelle lune.",
+                footer: 'Lunar API Service © 2025 - Développé par Stefano Vananti - Disponible sur GitHub',
+                githubStar: 'Si vous trouvez ce projet utile, donnez-lui une étoile sur GitHub !',
+                algorithm: "Algorithme Astronomique",
+                algorithmIntro: "Les calculs des phases lunares utilisent un algorithme astronomique basé sur les équations de Jean Meeus, décrites dans son livre \"Astronomical Algorithms\". Voici une explication mathématique simplifiée :",
+                lunarPhaseCalc: "🔢 Calcul de la Phase Lunaire",
+                lunarPhaseStep1: "1️⃣ Calcul du nombre de jours écoulés depuis le 1er janvier 2000 (J2000) :",
+                lunarPhaseStep2: "2️⃣ Calcul de l'âge lunaire normalisé (0-1) :",
+                lunarPhaseStep3: "3️⃣ Calcul de la phase lunaire (0-1, où 0 et 1 = Nouvelle Lune, 0,5 = Pleine Lune) :",
+                lunarPhaseStep4: "4️⃣ Calcul de l'illumination (0-1) :",
+                lunarDistanceCalc: "📏 Calcul de la Distance Lunaire",
+                lunarDistanceExplain: "La distance Terre-Lune varie en raison de l'orbite elliptique de la Lune 🌎↔️🌙. La distance moyenne est d'environ 384 400 km, mais varie entre 356 500 km (périgée) et 406 700 km (apogée).",
+                lunarAccuracy: "🎯 Précision de l'Algorithme",
+                lunarAccuracyExplain: "Cet algorithme simplifié a une précision d'environ ±0,25 jours pour l'âge lunaire et ±1% pour l'illumination. Pour calculs plus précis, l'API utilise des corrections supplémentaires qui tiennent compte de :",
+                lunarAccuracyPoint1: "🪐 Perturbations gravitationnelles d'autres planètes",
+                lunarAccuracyPoint2: "⭕ Variations de l'excentricité de l'orbite lunaire",
+                lunarAccuracyPoint3: "🔄 Précession des équinoxes",
+                lunarAccuracyPoint4: "📐 Nutation et aberration",
+                algorithmReference: "Pour plus de détails, consultez \"Astronomical Algorithms\" de Jean Meeus 📚 ou \"Practical Astronomy with your Calculator\" de Peter Duffett-Smith 🔭."
+            },
+            es: {
+                title: "Lunar API Service - Documentación",
+                subtitle: "Un servicio API confiable para las fases lunares",
+                introduction: "Introducción",
+                introText: "Lunar API Service es una API RESTful que proporciona información precisa sobre las fases lunares. Puede utilizar esta API para obtener datos sobre la fase lunar actual, una fecha específica o información lunar detallada.",
+                availability: "La API está disponible 24/7 y está alojada en Vercel, garantizando alta disponibilidad y baja latencia.",
+                endpoints: "Puntos de conexión API",
+                currentPhase: "Devuelve la fase lunar actual con iluminación y emoji correspondiente.",
+                responseExample: "Ejemplo de respuesta:",
+                tryEndpoint: "Pruebe este punto de conexión:",
+                executeRequest: "Ejecutar solicitud",
+                loading: "Cargando...",
+                error: "Error:",
+                selectDate: "Seleccione una fecha",
+                language: "Idioma:",
+                moonPhases: "Fases Lunares y Emojis",
+                moonPhasesDesc: "La API devuelve un emoji correspondiente a la fase lunar actual. Aquí hay una guía de las fases lunares y sus emojis:",
+                newMoon: "Luna Nueva",
+                waxingCrescent: "Luna Creciente",
+                firstQuarter: "Cuarto Creciente",
+                waxingGibbous: "Luna Gibosa Creciente",
+                fullMoon: "Luna Llena",
+                waningGibbous: "Luna Gibosa Menguante",
+                lastQuarter: "Cuarto Menguante",
+                waningCrescent: "Luna Menguante",
+                jsUsage: "Uso en JavaScript",
+                jsExample: "Aquí hay un ejemplo de cómo usar la API en JavaScript:",
+                limits: "Límites y Consideraciones",
+                limitsText: "La API es gratuita y no requiere autenticación. Sin embargo, úsela de manera responsable. Los cálculos lunares se basan en algoritmos astronómicos y proporcionan resultados precisos para fechas entre 1900 y 2100.",
+                security: "Seguridad",
+                securityText: "La API Lunar ha sido diseñada con la seguridad como prioridad. Aquí están las medidas de seguridad implementadas:",
+                rateLimiting: "Limitación de tasa: Para prevenir abusos, la API limita las solicitudes a 100 por IP cada 15 minutos.",
+                inputValidation: "Validación de entrada: Todas las entradas son estrictamente validadas para prevenir ataques de inyección.",
+                securityHeaders: "Encabezados de seguridad: La API utiliza encabezados de seguridad modernos para proteger contra ataques comunes como XSS y CSRF.",
+                https: "HTTPS: Todas las comunicaciones están cifradas a través de HTTPS.",
+                monitoring: "Monitoreo: La actividad de la API es monitoreada para identificar y bloquear comportamientos sospechosos.",
+                contact: "Si encuentra problemas de seguridad o tiene sugerencias para mejorar la seguridad de la API, contáctenos en",
+                datePhase: "Devuelve la fase lunar para una fecha específica. El formato de fecha debe ser YYYY-MM-DD.",
+                detailedInfo: "Devuelve información lunar detallada, incluyendo edad, distancia, próxima luna llena y luna nueva.",
+                footer: 'Lunar API Service © 2025 - Desarrollado por Stefano Vananti - Disponible en GitHub',
+                githubStar: '¡Si encuentras útil este proyecto, dale una estrella en GitHub!',
+                algorithm: "Algoritmo Astronómico",
+                algorithmIntro: "Los cálculos de las fases lunares utilizan un algoritmo astronómico basado en las ecuaciones de Jean Meeus, descritas en su libro \"Astronomical Algorithms\". Aquí hay una explicación matemática simplificada:",
+                lunarPhaseCalc: "🔢 Cálculo de la Fase Lunar",
+                lunarPhaseStep1: "1️⃣ Cálculo de los días transcurridos desde el 1 de enero de 2000 (J2000):",
+                lunarPhaseStep2: "2️⃣ Cálculo de la edad lunar normalizada (0-1):",
+                lunarPhaseStep3: "3️⃣ Cálculo de la fase lunar (0-1, donde 0 y 1 = Luna Nueva, 0,5 = Luna Llena):",
+                lunarPhaseStep4: "4️⃣ Cálculo de la iluminación (0-1):",
+                lunarDistanceCalc: "📏 Cálculo de la Distancia Lunar",
+                lunarDistanceExplain: "La distancia Tierra-Luna varía debido a la órbita elíptica de la Luna 🌎↔️🌙. La distancia media es de aproximadamente 384.400 km, pero varía entre 356.500 km (perigeo) y 406.700 km (apogeo).",
+                lunarAccuracy: "🎯 Precisión del Algoritmo",
+                lunarAccuracyExplain: "Este algoritmo simplificado tiene una precisión de aproximadamente ±0,25 días para la edad lunar y ±1% para la iluminación. Para cálculos más precisos, la API utiliza correcciones adicionales que tienen en cuenta:",
+                lunarAccuracyPoint1: "🪐 Perturbaciones gravitacionales de otros planetas",
+                lunarAccuracyPoint2: "⭕ Variaciones en la excentricidad de la órbita lunar",
+                lunarAccuracyPoint3: "🔄 Precesión de los equinoccios",
+                lunarAccuracyPoint4: "📐 Nutación y aberración",
+                algorithmReference: "Para más detalles, consulte \"Astronomical Algorithms\" de Jean Meeus 📚 o \"Practical Astronomy with your Calculator\" de Peter Duffett-Smith 🔭."
+            }
+        };
+
+        // Precarica le API per evitare problemi di cold start
+        function preloadAPIs() {
+            const apiEndpoints = [
+                '/api/lunar/phase',
+                '/api/lunar/info'
+            ];
+            
+            // Utilizzo di Promise.all per il caricamento parallelo
+            Promise.all(apiEndpoints.map(endpoint => 
+                fetch(window.location.origin + endpoint, { method: 'HEAD' })
+                    .catch(err => console.log('Preload error (non critico):', err))
+            )).then(() => {
+                console.log('API precaricate con successo');
+            });
+        }
+
+        // Funzione per tradurre la pagina
+        function translatePage(lang) {
+            if (!translations[lang]) {
+                console.error('Language not supported:', lang);
+                return;
+            }
+
+            // Cambia la lingua del documento
+            document.documentElement.lang = lang;
+
+            // Aggiorna il titolo
+            document.title = translations[lang].title;
+
+            // Aggiorna tutti gli elementi con data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const translation = translations[lang][key];
+
+                if (!translation) {
+                    console.warn('Missing translation for:', key);
+                    return;
+                }
+
+                // Gestisci elementi speciali
+                if (element.tagName === 'BUTTON') {
+                    element.textContent = translation;
+                } else if (element.tagName === 'INPUT' && element.type === 'button') {
+                    element.value = translation;
+                } else if (key === 'footer' || key === 'githubStar' || key === 'contact') {
+                    // Mantieni i link HTML
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = element.innerHTML;
+                    const links = Array.from(tempDiv.getElementsByTagName('a'));
+                    element.textContent = translation;
+                    links.forEach(link => {
+                        element.innerHTML = element.innerHTML.replace(link.textContent, link.outerHTML);
+                    });
+                } else {
+                    element.textContent = translation;
+                }
+            });
+
+            // Aggiorna l'URL
+            const url = new URL(window.location);
+            url.searchParams.set('lang', lang);
+            window.history.pushState({}, '', url);
+
+            // Salva la preferenza
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Precarica le API
+            preloadAPIs();
+            
+            // Gestione eventi per i bottoni API
+            document.querySelectorAll('.api-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const endpoint = this.getAttribute('data-endpoint');
+                    if (endpoint === 'date') {
+                        fetchDateAPI();
+                    } else {
+                        fetchAPI(endpoint);
+                    }
+                });
+            });
+
+            // Gestione evento per il selettore lingua
+            document.getElementById('language-select').addEventListener('change', function(e) {
+                translatePage(e.target.value);
+            });
+
+            // Imposta la data corrente nell'input
+            document.getElementById('date-input').valueAsDate = new Date();
+
+            // Carica la lingua iniziale
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            const storedLang = localStorage.getItem('preferredLanguage');
+            const browserLang = navigator.language.split('-')[0];
+            
+            let initialLang = 'it';
+            if (langParam && translations[langParam]) {
+                initialLang = langParam;
+            } else if (storedLang && translations[storedLang]) {
+                initialLang = storedLang;
+            } else if (translations[browserLang]) {
+                initialLang = browserLang;
+            }
+
+            document.getElementById('language-select').value = initialLang;
+            translatePage(initialLang);
+        });
+
         const API_BASE_URL = window.location.origin;
         
         async function fetchAPI(endpoint) {
@@ -417,46 +1337,113 @@ fetch('https://lunar-api-service.vercel.app/api/lunar/phase/2023-12-25')
             const resultElement = document.getElementById(resultId);
             resultElement.style.display = 'block';
             
-            // Usa la traduzione per il messaggio di caricamento
-            resultElement.textContent = i18next.t('ui.loading');
+            const lang = document.documentElement.lang;
+            resultElement.textContent = translations[lang].loading;
             
             try {
                 const response = await fetch(API_BASE_URL + endpoint);
                 const data = await response.json();
                 resultElement.textContent = JSON.stringify(data, null, 2);
             } catch (error) {
-                // Usa la traduzione per il messaggio di errore
-                resultElement.textContent = `${i18next.t('ui.error')} ${error.message}`;
+                resultElement.textContent = `${translations[lang].error} ${error.message}`;
             }
         }
         
         async function fetchDateAPI() {
             const dateInput = document.getElementById('date-input');
             const resultElement = document.getElementById('date-result');
+            const lang = document.documentElement.lang;
             
             if (!dateInput.value) {
-                // Usa la traduzione per il messaggio di selezione data
-                alert(i18next.t('ui.selectDate'));
+                alert(translations[lang].selectDate);
                 return;
             }
             
             resultElement.style.display = 'block';
-            
-            // Usa la traduzione per il messaggio di caricamento
-            resultElement.textContent = i18next.t('ui.loading');
+            resultElement.textContent = translations[lang].loading;
             
             try {
                 const response = await fetch(`${API_BASE_URL}/api/lunar/phase/${dateInput.value}`);
                 const data = await response.json();
                 resultElement.textContent = JSON.stringify(data, null, 2);
             } catch (error) {
-                // Usa la traduzione per il messaggio di errore
-                resultElement.textContent = `${i18next.t('ui.error')} ${error.message}`;
+                resultElement.textContent = `${translations[lang].error} ${error.message}`;
+            }
+        }
+
+        // Funzioni per i collapsible e modali
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inizializza i collapsible
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+            collapsibleHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.toggle-icon');
+                    
+                    // Toggle della classe active
+                    content.classList.toggle('active');
+                    icon.classList.toggle('active');
+                });
+            });
+            
+            // Chiudi i modali quando si clicca fuori dal contenuto
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(event) {
+                    if (event.target === this) {
+                        closeModal(this.id);
+                    }
+                });
+            });
+            
+            // Chiudi i modali con il tasto ESC
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    const openModals = document.querySelectorAll('.modal[style*="display: flex"]');
+                    openModals.forEach(modal => {
+                        closeModal(modal.id);
+                    });
+                }
+            });
+        });
+        
+        // Funzione per aprire un modale
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Impedisce lo scroll della pagina
             }
         }
         
-        // Imposta la data di oggi come valore predefinito
-        document.getElementById('date-input').valueAsDate = new Date();
+        // Funzione per chiudere un modale
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = ''; // Ripristina lo scroll della pagina
+            }
+        }
+
+        // Aggiungiamo il supporto per Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX'); // Sostituire con il tuo ID di Google Analytics
+        
+        // Registrazione del Service Worker per PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                    console.log('ServiceWorker registrato con successo: ', registration.scope);
+                }, function(err) {
+                    console.log('Registrazione ServiceWorker fallita: ', err);
+                });
+            });
+        }
     </script>
+    
+    <!-- Caricamento differito di script non critici -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> <!-- Sostituire con il tuo ID di Google Analytics -->
 </body>
 </html> 

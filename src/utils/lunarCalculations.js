@@ -62,15 +62,30 @@ function getLunarPhaseForDate(date = new Date()) {
  * @returns {string} - Nome della fase lunare
  */
 function determineLunarPhase(cyclePercentage) {
+  // Calcola l'illuminazione per una classificazione più accurata
+  let illumination;
+  if (cyclePercentage <= 0.5) {
+    illumination = cyclePercentage * 2;
+  } else {
+    illumination = (1 - cyclePercentage) * 2;
+  }
+
+  // Classificazione basata sull'illuminazione per casi limite
+  if (illumination >= 0.95) {
+    return 'Full Moon'; // Se l'illuminazione è superiore al 95%, è sempre luna piena
+  }
+
+  // Usa sia la percentuale del ciclo che l'illuminazione per una classificazione più precisa
   if (cyclePercentage < 0.025 || cyclePercentage >= 0.975) {
     return 'New Moon';
   } else if (cyclePercentage < 0.24) {
     return 'Waxing Crescent';
   } else if (cyclePercentage < 0.26) {
     return 'First Quarter';
-  } else if (cyclePercentage < 0.49) {
+  } else if (cyclePercentage < 0.45) {
     return 'Waxing Gibbous';
-  } else if (cyclePercentage < 0.51) {
+  } else if (cyclePercentage < 0.55) {
+    // Ampliato l'intervallo della luna piena dal 2% al 10% del ciclo
     return 'Full Moon';
   } else if (cyclePercentage < 0.74) {
     return 'Waning Gibbous';

@@ -14,24 +14,27 @@ const PORT = process.env.PORT || 3000;
 // Helmet per impostare headers di sicurezza
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://code.jquery.com", "https://cdn.jsdelivr.net"], // Aggiunti domini per le librerie esterne
-        styleSrc: ["'self'", "'unsafe-inline'"], // Necessario per gli stili inline nella pagina di documentazione
-        imgSrc: ["'self'", "data:"],
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
-      },
-    },
+    contentSecurityPolicy: false, // Disabilito completamente la CSP per risolvere i problemi
     xssFilter: true,
     noSniff: true,
     referrerPolicy: { policy: 'same-origin' }
   })
 );
+
+// Disabilita ETag e Last-Modified
+app.set('etag', false);
+app.set('lastModified', false);
+
+// Middleware per aggiungere headers di cache-control a tutte le risposte
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Surrogate-Control', 'no-store');
+  res.set('Clear-Site-Data', '"cache", "cookies", "storage"');
+  res.set('X-Timestamp', Date.now().toString());
+  next();
+});
 
 // Rate limiting - limita le richieste a 100 per 15 minuti per IP
 const apiLimiter = rateLimit({
@@ -68,13 +71,25 @@ app.use((req, res, next) => {
 
 // Servi i file statici dalla cartella public
 app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '1d' // Cache per 1 giorno
+  etag: false,
+  lastModified: false,
+  maxAge: 0,
+  setHeaders: function (res, path) {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.set('Surrogate-Control', 'no-store');
+    res.set('Clear-Site-Data', '"cache", "cookies", "storage"');
+    res.set('X-Timestamp', Date.now().toString());
+  }
 }));
 
-// Servi i file di traduzione
-app.use('/locales', express.static(path.join(__dirname, 'public', 'locales'), {
-  maxAge: '1d' // Cache per 1 giorno
-}));
+// Rimuovo il riferimento alla cartella locales che non esiste più
+// app.use('/locales', express.static(path.join(__dirname, 'public', 'locales'), {
+//   etag: false,
+//   lastModified: false,
+//   maxAge: 0
+// }));
 
 // Inizializza i dati lunari all'avvio del server
 initializeLunarData();
@@ -87,6 +102,12 @@ app.use('/api/lunar', lunarRoutes);
 
 // Rotta di base per la documentazione HTML
 app.get('/', (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Surrogate-Control', 'no-store');
+  res.set('Clear-Site-Data', '"cache", "cookies", "storage"');
+  res.set('X-Timestamp', Date.now().toString());
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
