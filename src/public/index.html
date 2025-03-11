@@ -24,12 +24,10 @@
     <!-- Preconnect per migliorare la velocità di caricamento -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Preload per risorse critiche -->
-    <link rel="preload" as="fetch" href="/api/lunar/phase" crossorigin="anonymous">
     <!-- PWA Support -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#6a4c93">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/moon-icon.png">
     <!-- Fine metatag SEO -->
     
     <!-- JSON-LD per i dati strutturati -->
@@ -1226,7 +1224,7 @@ distance = 384400 * (1 - 0.0549 * Math.cos(M))</div>
             
             // Utilizzo di Promise.all per il caricamento parallelo
             Promise.all(apiEndpoints.map(endpoint => 
-                fetch(window.location.origin + endpoint, { method: 'HEAD' })
+                fetch(window.location.origin + endpoint)
                     .catch(err => console.log('Preload error (non critico):', err))
             )).then(() => {
                 console.log('API precaricate con successo');

@@ -3,8 +3,8 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/api/lunar/phase',
-  '/api/lunar/info'
+  '/moon-icon.png'
+  // Rimosse le API che causano problemi con Clear-Site-Data
 ];
 
 // Installazione del Service Worker
@@ -13,7 +13,10 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Cache aperta');
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache).catch(error => {
+          console.error('Errore durante il caching delle risorse:', error);
+          // Continua comunque l'installazione anche se alcune risorse non sono disponibili
+        });
       })
   );
 });
@@ -36,6 +39,11 @@ self.addEventListener('activate', event => {
 
 // Gestione delle richieste di rete
 self.addEventListener('fetch', event => {
+  // Ignora le richieste API che causano problemi con Clear-Site-Data
+  if (event.request.url.includes('/api/')) {
+    return;
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -65,7 +73,11 @@ self.addEventListener('fetch', event => {
 
             return response;
           }
-        );
+        ).catch(error => {
+          console.error('Errore durante il fetch:', error);
+          // Fallback per le risorse non disponibili
+          return new Response('Risorsa non disponibile', { status: 404 });
+        });
       })
   );
 }); 

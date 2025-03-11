@@ -31,7 +31,6 @@ app.use((req, res, next) => {
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   res.set('Surrogate-Control', 'no-store');
-  res.set('Clear-Site-Data', '"cache", "cookies", "storage"');
   res.set('X-Timestamp', Date.now().toString());
   next();
 });
@@ -79,7 +78,6 @@ app.use(express.static(path.join(__dirname, 'public'), {
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     res.set('Surrogate-Control', 'no-store');
-    res.set('Clear-Site-Data', '"cache", "cookies", "storage"');
     res.set('X-Timestamp', Date.now().toString());
   }
 }));
@@ -106,7 +104,6 @@ app.get('/', (req, res) => {
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   res.set('Surrogate-Control', 'no-store');
-  res.set('Clear-Site-Data', '"cache", "cookies", "storage"');
   res.set('X-Timestamp', Date.now().toString());
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
