@@ -17,7 +17,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"], // Necessario per gli script inline nella pagina di documentazione
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://code.jquery.com", "https://cdn.jsdelivr.net"], // Aggiunti domini per le librerie esterne
         styleSrc: ["'self'", "'unsafe-inline'"], // Necessario per gli stili inline nella pagina di documentazione
         imgSrc: ["'self'", "data:"],
         connectSrc: ["'self'"],
@@ -68,6 +68,11 @@ app.use((req, res, next) => {
 
 // Servi i file statici dalla cartella public
 app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d' // Cache per 1 giorno
+}));
+
+// Servi i file di traduzione
+app.use('/locales', express.static(path.join(__dirname, 'public', 'locales'), {
   maxAge: '1d' // Cache per 1 giorno
 }));
 

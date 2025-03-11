@@ -1,0 +1,74 @@
+{
+  "title": "Lunar API Service - Documentation",
+  "header": {
+    "title": "🌙 Lunar API Service",
+    "subtitle": "Un service API fiable pour les phases lunaires"
+  },
+  "sections": {
+    "introduction": {
+      "title": "Introduction",
+      "paragraph1": "Lunar API Service est une API RESTful qui fournit des informations précises sur les phases lunaires. Vous pouvez utiliser cette API pour obtenir des données sur la phase lunaire actuelle, une date spécifique, ou pour obtenir des informations lunaires détaillées.",
+      "paragraph2": "L'API est disponible 24h/24 et 7j/7 et est hébergée sur Vercel, garantissant une haute disponibilité et une faible latence."
+    },
+    "endpoints": {
+      "title": "Points de terminaison API",
+      "currentPhase": {
+        "title": "Phase Lunaire Actuelle",
+        "description": "Renvoie la phase lunaire actuelle avec l'illumination et l'emoji correspondant."
+      },
+      "specificDate": {
+        "title": "Phase Lunaire pour une Date Spécifique",
+        "description": "Renvoie la phase lunaire pour une date spécifique. Le format de la date doit être AAAA-MM-JJ."
+      },
+      "detailedInfo": {
+        "title": "Informations Lunaires Détaillées",
+        "description": "Renvoie des informations lunaires détaillées, y compris l'âge, la distance, la prochaine pleine lune et la nouvelle lune."
+      },
+      "response": "Exemple de réponse:",
+      "tryIt": "Essayez ce point de terminaison:",
+      "executeRequest": "Exécuter la requête"
+    },
+    "phases": {
+      "title": "Phases Lunaires et Emojis",
+      "description": "L'API renvoie un emoji correspondant à la phase lunaire actuelle. Voici un guide des phases lunaires et de leurs emojis associés:",
+      "newMoon": "Nouvelle Lune",
+      "waxingCrescent": "Croissant Croissant",
+      "firstQuarter": "Premier Quartier",
+      "waxingGibbous": "Gibbeuse Croissante",
+      "fullMoon": "Pleine Lune",
+      "waningGibbous": "Gibbeuse Décroissante",
+      "lastQuarter": "Dernier Quartier",
+      "waningCrescent": "Croissant Décroissant"
+    },
+    "usage": {
+      "title": "Utilisation en JavaScript",
+      "description": "Voici un exemple d'utilisation de l'API en JavaScript:"
+    },
+    "limits": {
+      "title": "Limites et Considérations",
+      "description": "L'API est gratuite et ne nécessite pas d'authentification. Cependant, veuillez l'utiliser de manière responsable. Les calculs lunaires sont basés sur des algorithmes astronomiques et fournissent des résultats précis pour les dates comprises entre 1900 et 2100."
+    },
+    "security": {
+      "title": "Sécurité",
+      "description": "L'API Lunar a été conçue avec la sécurité comme priorité. Voici les mesures de sécurité mises en œuvre:",
+      "rateLimiting": "Limitation de débit: Pour prévenir les abus, l'API limite les requêtes à 100 par IP toutes les 15 minutes.",
+      "inputValidation": "Validation des entrées: Toutes les entrées sont strictement validées pour prévenir les attaques par injection.",
+      "securityHeaders": "En-têtes de sécurité: L'API utilise des en-têtes de sécurité modernes pour protéger contre les attaques courantes comme XSS et CSRF.",
+      "https": "HTTPS: Toutes les communications sont chiffrées via HTTPS.",
+      "monitoring": "Surveillance: L'activité de l'API est surveillée pour identifier et bloquer les comportements suspects.",
+      "contact": "Si vous rencontrez des problèmes de sécurité ou avez des suggestions pour améliorer la sécurité de l'API, veuillez nous contacter à"
+    }
+  },
+  "footer": {
+    "copyright": "Lunar API Service © 2023 - Développé par",
+    "available": "Disponible sur",
+    "useful": "Si vous trouvez ce projet utile,",
+    "star": "laissez une étoile sur GitHub!"
+  },
+  "ui": {
+    "loading": "Chargement...",
+    "error": "Erreur:",
+    "selectDate": "Sélectionnez une date",
+    "language": "Langue"
+  }
+} 

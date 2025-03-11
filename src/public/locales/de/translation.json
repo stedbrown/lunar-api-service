@@ -1,0 +1,74 @@
+{
+  "title": "Lunar API Service - Dokumentation",
+  "header": {
+    "title": "🌙 Lunar API Service",
+    "subtitle": "Ein zuverlässiger API-Dienst für Mondphasen"
+  },
+  "sections": {
+    "introduction": {
+      "title": "Einführung",
+      "paragraph1": "Lunar API Service ist eine RESTful API, die genaue Informationen über Mondphasen liefert. Sie können diese API verwenden, um Daten über die aktuelle Mondphase, ein bestimmtes Datum oder detaillierte Mondinformationen zu erhalten.",
+      "paragraph2": "Die API ist rund um die Uhr verfügbar und wird auf Vercel gehostet, was hohe Verfügbarkeit und geringe Latenz gewährleistet."
+    },
+    "endpoints": {
+      "title": "API-Endpunkte",
+      "currentPhase": {
+        "title": "Aktuelle Mondphase",
+        "description": "Gibt die aktuelle Mondphase mit Beleuchtung und entsprechendem Emoji zurück."
+      },
+      "specificDate": {
+        "title": "Mondphase für ein bestimmtes Datum",
+        "description": "Gibt die Mondphase für ein bestimmtes Datum zurück. Das Datumsformat muss JJJJ-MM-TT sein."
+      },
+      "detailedInfo": {
+        "title": "Detaillierte Mondinformationen",
+        "description": "Gibt detaillierte Mondinformationen zurück, einschließlich Alter, Entfernung, nächster Vollmond und Neumond."
+      },
+      "response": "Beispielantwort:",
+      "tryIt": "Testen Sie diesen Endpunkt:",
+      "executeRequest": "Anfrage ausführen"
+    },
+    "phases": {
+      "title": "Mondphasen und Emojis",
+      "description": "Die API gibt ein Emoji zurück, das der aktuellen Mondphase entspricht. Hier ist eine Anleitung zu Mondphasen und ihren zugehörigen Emojis:",
+      "newMoon": "Neumond",
+      "waxingCrescent": "Zunehmender Sichelmond",
+      "firstQuarter": "Erstes Viertel",
+      "waxingGibbous": "Zunehmender Mond",
+      "fullMoon": "Vollmond",
+      "waningGibbous": "Abnehmender Mond",
+      "lastQuarter": "Letztes Viertel",
+      "waningCrescent": "Abnehmender Sichelmond"
+    },
+    "usage": {
+      "title": "JavaScript-Verwendung",
+      "description": "Hier ist ein Beispiel, wie Sie die API in JavaScript verwenden können:"
+    },
+    "limits": {
+      "title": "Einschränkungen und Überlegungen",
+      "description": "Die API ist kostenlos und erfordert keine Authentifizierung. Bitte nutzen Sie sie jedoch verantwortungsvoll. Die Mondberechnungen basieren auf astronomischen Algorithmen und liefern genaue Ergebnisse für Daten zwischen 1900 und 2100."
+    },
+    "security": {
+      "title": "Sicherheit",
+      "description": "Die Lunar API wurde mit Sicherheit als Priorität entwickelt. Hier sind die implementierten Sicherheitsmaßnahmen:",
+      "rateLimiting": "Rate-Limiting: Um Missbrauch zu verhindern, begrenzt die API Anfragen auf 100 pro IP alle 15 Minuten.",
+      "inputValidation": "Eingabevalidierung: Alle Eingaben werden streng validiert, um Injection-Angriffe zu verhindern.",
+      "securityHeaders": "Sicherheits-Header: Die API verwendet moderne Sicherheits-Header zum Schutz vor häufigen Angriffen wie XSS und CSRF.",
+      "https": "HTTPS: Alle Kommunikationen werden über HTTPS verschlüsselt.",
+      "monitoring": "Überwachung: Die API-Aktivität wird überwacht, um verdächtiges Verhalten zu identifizieren und zu blockieren.",
+      "contact": "Wenn Sie auf Sicherheitsprobleme stoßen oder Vorschläge zur Verbesserung der API-Sicherheit haben, kontaktieren Sie uns bitte unter"
+    }
+  },
+  "footer": {
+    "copyright": "Lunar API Service © 2023 - Entwickelt von",
+    "available": "Verfügbar auf",
+    "useful": "Wenn Sie dieses Projekt nützlich finden,",
+    "star": "hinterlassen Sie einen Stern auf GitHub!"
+  },
+  "ui": {
+    "loading": "Wird geladen...",
+    "error": "Fehler:",
+    "selectDate": "Wählen Sie ein Datum",
+    "language": "Sprache"
+  }
+} 

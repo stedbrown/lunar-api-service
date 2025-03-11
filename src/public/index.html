@@ -205,6 +205,11 @@
             }
         }
     </style>
+    <!-- Librerie per l'internazionalizzazione -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="/js/i18n.js"></script>
 </head>
 <body>
     <header>
@@ -411,14 +416,17 @@ fetch('https://lunar-api-service.vercel.app/api/lunar/phase/2023-12-25')
             
             const resultElement = document.getElementById(resultId);
             resultElement.style.display = 'block';
-            resultElement.textContent = 'Caricamento...';
+            
+            // Usa la traduzione per il messaggio di caricamento
+            resultElement.textContent = i18next.t('ui.loading');
             
             try {
                 const response = await fetch(API_BASE_URL + endpoint);
                 const data = await response.json();
                 resultElement.textContent = JSON.stringify(data, null, 2);
             } catch (error) {
-                resultElement.textContent = `Errore: ${error.message}`;
+                // Usa la traduzione per il messaggio di errore
+                resultElement.textContent = `${i18next.t('ui.error')} ${error.message}`;
             }
         }
         
@@ -427,19 +435,23 @@ fetch('https://lunar-api-service.vercel.app/api/lunar/phase/2023-12-25')
             const resultElement = document.getElementById('date-result');
             
             if (!dateInput.value) {
-                alert('Seleziona una data');
+                // Usa la traduzione per il messaggio di selezione data
+                alert(i18next.t('ui.selectDate'));
                 return;
             }
             
             resultElement.style.display = 'block';
-            resultElement.textContent = 'Caricamento...';
+            
+            // Usa la traduzione per il messaggio di caricamento
+            resultElement.textContent = i18next.t('ui.loading');
             
             try {
                 const response = await fetch(`${API_BASE_URL}/api/lunar/phase/${dateInput.value}`);
                 const data = await response.json();
                 resultElement.textContent = JSON.stringify(data, null, 2);
             } catch (error) {
-                resultElement.textContent = `Errore: ${error.message}`;
+                // Usa la traduzione per il messaggio di errore
+                resultElement.textContent = `${i18next.t('ui.error')} ${error.message}`;
             }
         }
         
