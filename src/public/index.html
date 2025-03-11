@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunar API Service - Documentazione</title>
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --secondary-color: #8ac6d1;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color), #4a3a6b);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+            color: var(--primary-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .endpoint {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .endpoint h3 {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            background-color: #4CAF50;
+        }
+        
+        .url {
+            font-family: monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 1rem;
+        }
+        
+        pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .response {
+            margin-top: 15px;
+        }
+        
+        .emoji-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .emoji-item {
+            text-align: center;
+            margin: 10px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 120px;
+        }
+        
+        .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .try-it {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        #result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #272822;
+            color: #f8f8f2;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 20px 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .emoji-item {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌙 Lunar API Service</h1>
+        <p>Un servizio API affidabile per le fasi lunari</p>
+    </header>
+    
+    <div class="container">
+        <section>
+            <h2>Introduzione</h2>
+            <p>
+                Lunar API Service è un'API RESTful che fornisce informazioni accurate sulle fasi lunari.
+                Puoi utilizzare questa API per ottenere dati sulla fase lunare corrente, su una data specifica,
+                o per ottenere informazioni lunari dettagliate.
+            </p>
+            <p>
+                L'API è disponibile 24/7 ed è ospitata su Vercel, garantendo alta disponibilità e bassa latenza.
+            </p>
+        </section>
+        
+        <section>
+            <h2>Endpoint API</h2>
+            
+            <div class="endpoint">
+                <h3><span class="method">GET</span> <span class="url">/api/lunar/phase</span></h3>
+                <p>Restituisce la fase lunare corrente con illuminazione ed emoji corrispondente.</p>
+                
+                <div class="response">
+                    <h4>Esempio di risposta:</h4>
+                    <pre><code>{
+  "status": "success",
+  "data": {
+    "phase": "Waxing Crescent",
+    "illumination": 0.3521,
+    "emoji": "🌒",
+    "date": "2023-05-15T12:30:45.123Z"
+  }
+}</code></pre>
+                </div>
+                
+                <div class="try-it">
+                    <h4>Prova questo endpoint:</h4>
+                    <button class="btn" onclick="fetchAPI('/api/lunar/phase')">Esegui richiesta</button>
+                    <pre id="phase-result" style="display: none;"></pre>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <h3><span class="method">GET</span> <span class="url">/api/lunar/phase/{date}</span></h3>
+                <p>Restituisce la fase lunare per una data specifica. Il formato della data deve essere YYYY-MM-DD.</p>
+                
+                <div class="response">
+                    <h4>Esempio di risposta:</h4>
+                    <pre><code>{
+  "status": "success",
+  "data": {
+    "phase": "Full Moon",
+    "illumination": 0.9982,
+    "emoji": "🌕",
+    "date": "2023-12-25T00:00:00.000Z"
+  }
+}</code></pre>
+                </div>
+                
+                <div class="try-it">
+                    <h4>Prova questo endpoint:</h4>
+                    <input type="date" id="date-input" class="form-control">
+                    <button class="btn" onclick="fetchDateAPI()">Esegui richiesta</button>
+                    <pre id="date-result" style="display: none;"></pre>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <h3><span class="method">GET</span> <span class="url">/api/lunar/info</span></h3>
+                <p>Restituisce informazioni lunari dettagliate, inclusi età, distanza, prossima luna piena e nuova.</p>
+                
+                <div class="response">
+                    <h4>Esempio di risposta:</h4>
+                    <pre><code>{
+  "status": "success",
+  "data": {
+    "phase": "Waxing Crescent",
+    "illumination": 0.3521,
+    "age": 8.76,
+    "cyclePercentage": 0.2967,
+    "nextFullMoon": "2023-05-23T15:42:12.000Z",
+    "nextNewMoon": "2023-06-07T03:15:45.000Z",
+    "distance": 378245,
+    "emoji": "🌒",
+    "date": "2023-05-15T12:30:45.123Z"
+  }
+}</code></pre>
+                </div>
+                
+                <div class="try-it">
+                    <h4>Prova questo endpoint:</h4>
+                    <button class="btn" onclick="fetchAPI('/api/lunar/info')">Esegui richiesta</button>
+                    <pre id="info-result" style="display: none;"></pre>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Fasi Lunari ed Emoji</h2>
+            <p>L'API restituisce un'emoji corrispondente alla fase lunare corrente. Ecco una guida alle fasi lunari e alle relative emoji:</p>
+            
+            <div class="emoji-container">
+                <div class="emoji-item">
+                    <span class="emoji">🌑</span>
+                    <span>Luna Nuova</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌒</span>
+                    <span>Luna Crescente</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌓</span>
+                    <span>Primo Quarto</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌔</span>
+                    <span>Gibbosa Crescente</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌕</span>
+                    <span>Luna Piena</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌖</span>
+                    <span>Gibbosa Calante</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌗</span>
+                    <span>Ultimo Quarto</span>
+                </div>
+                <div class="emoji-item">
+                    <span class="emoji">🌘</span>
+                    <span>Luna Calante</span>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Utilizzo in JavaScript</h2>
+            <p>Ecco un esempio di come utilizzare l'API in JavaScript:</p>
+            
+            <pre><code>// Ottieni la fase lunare corrente
+fetch('https://lunar-api-service.vercel.app/api/lunar/phase')
+  .then(response => response.json())
+  .then(data => {
+    console.log(`Fase lunare: ${data.data.phase}`);
+    console.log(`Illuminazione: ${data.data.illumination * 100}%`);
+    console.log(`Emoji: ${data.data.emoji}`);
+  })
+  .catch(error => console.error('Errore:', error));
+
+// Ottieni la fase lunare per una data specifica
+fetch('https://lunar-api-service.vercel.app/api/lunar/phase/2023-12-25')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Errore:', error));</code></pre>
+        </section>
+        
+        <section>
+            <h2>Limiti e Considerazioni</h2>
+            <p>
+                L'API è gratuita e non richiede autenticazione. Tuttavia, ti preghiamo di utilizzarla in modo responsabile.
+                I calcoli lunari sono basati su algoritmi astronomici e forniscono risultati accurati per date comprese tra il 1900 e il 2100.
+            </p>
+        </section>
+        
+        <section>
+            <h2>Sicurezza</h2>
+            <p>
+                L'API Lunar è stata progettata con la sicurezza come priorità. Ecco le misure di sicurezza implementate:
+            </p>
+            
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+                <li><strong>Rate Limiting:</strong> Per prevenire abusi, l'API limita le richieste a 100 per IP ogni 15 minuti.</li>
+                <li><strong>Validazione degli Input:</strong> Tutti gli input vengono rigorosamente validati per prevenire attacchi di injection.</li>
+                <li><strong>Headers di Sicurezza:</strong> L'API utilizza headers di sicurezza moderni per proteggere contro attacchi comuni come XSS e CSRF.</li>
+                <li><strong>HTTPS:</strong> Tutte le comunicazioni sono crittografate tramite HTTPS.</li>
+                <li><strong>Monitoraggio:</strong> L'attività dell'API viene monitorata per identificare e bloccare comportamenti sospetti.</li>
+            </ul>
+            
+            <p>
+                Se riscontri problemi di sicurezza o hai suggerimenti per migliorare la sicurezza dell'API, ti preghiamo di contattarci all'indirizzo <a href="mailto:stefanovananti@icloud.com">stefanovananti@icloud.com</a>.
+            </p>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Lunar API Service &copy; 2023 - Sviluppato da <a href="mailto:stefanovananti@icloud.com">Stefano Vananti</a> - Disponibile su <a href="https://github.com/stedbrown/lunar-api-service" target="_blank">GitHub</a></p>
+        <p style="margin-top: 10px; font-size: 0.9em;">Se trovi utile questo progetto, <a href="https://github.com/stedbrown/lunar-api-service" target="_blank">lascia una stella su GitHub</a>!</p>
+    </footer>
+    
+    <script>
+        const API_BASE_URL = window.location.origin;
+        
+        async function fetchAPI(endpoint) {
+            const resultId = endpoint.includes('phase') && !endpoint.includes('phase/') 
+                ? 'phase-result' 
+                : 'info-result';
+            
+            const resultElement = document.getElementById(resultId);
+            resultElement.style.display = 'block';
+            resultElement.textContent = 'Caricamento...';
+            
+            try {
+                const response = await fetch(API_BASE_URL + endpoint);
+                const data = await response.json();
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Errore: ${error.message}`;
+            }
+        }
+        
+        async function fetchDateAPI() {
+            const dateInput = document.getElementById('date-input');
+            const resultElement = document.getElementById('date-result');
+            
+            if (!dateInput.value) {
+                alert('Seleziona una data');
+                return;
+            }
+            
+            resultElement.style.display = 'block';
+            resultElement.textContent = 'Caricamento...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/lunar/phase/${dateInput.value}`);
+                const data = await response.json();
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Errore: ${error.message}`;
+            }
+        }
+        
+        // Imposta la data di oggi come valore predefinito
+        document.getElementById('date-input').valueAsDate = new Date();
+    </script>
+</body>
+</html> 
